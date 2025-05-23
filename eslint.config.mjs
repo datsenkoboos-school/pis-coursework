@@ -115,5 +115,36 @@ export default withNuxt(
     },
 
     perfectionist.configs['recommended-natural'],
+    {
+      rules: {
+        'perfectionist/sort-imports': [
+          'error',
+          {
+            environment: 'node',
+            fallbackSort: { type: 'unsorted' },
+            groups: [
+              'type-import',
+              ['value-builtin', 'value-external'],
+              'type-internal',
+              'value-internal',
+              ['type-parent', 'type-sibling', 'type-index'],
+              ['value-parent', 'value-sibling', 'value-index'],
+              'ts-equals-import',
+              'unknown',
+            ],
+            ignoreCase: true,
+            internalPattern: ['^~/.+', '^@/.+'],
+            maxLineLength: undefined,
+            newlinesBetween: 'ignore',
+            order: 'asc',
+            partitionByComment: false,
+            partitionByNewLine: false,
+            specialCharacters: 'keep',
+            type: 'alphabetical',
+          },
+        ],
+        'perfectionist/sort-modules': 'off',
+      },
+    },
   ]
 );

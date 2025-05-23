@@ -18,4 +18,7 @@ export default defineNuxtConfig({
     '@prisma/nuxt',
     '@nuxt/ui',
   ],
+  runtimeConfig: {
+    USER_PASSWORD_SALT: '',
+  },
 });
