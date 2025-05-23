@@ -16,14 +16,16 @@
     "*.{vue,ts,js,css,json}": "eslint --fix"
   },
   "dependencies": {
-    "@nuxt/fonts": "0.11.4",
     "@nuxt/eslint": "1.4.1",
-    "@nuxtjs/tailwindcss": "6.14.0",
+    "@nuxt/fonts": "0.11.4",
+    "@nuxt/ui": "^3.1.2",
     "@prisma/client": "6.8.2",
     "@prisma/nuxt": "0.3.0",
     "nuxt": "^3.17.4",
+    "tailwindcss": "^4.1.7",
     "vue": "^3.5.14",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "zod": "^3.25.23"
   },
   "devDependencies": {
     "@html-eslint/eslint-plugin": "^0.40.3",
@@ -38,7 +40,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-        "@prisma/client"
+      "@prisma/client"
     ]
   },
   "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"

@@ -2,9 +2,6 @@
 export default defineNuxtConfig({
   $development: {
     devtools: { enabled: false },
-    tailwindcss: {
-      viewer: false,
-    },
   },
   compatibilityDate: '2025-05-15',
   components: [
@@ -18,7 +15,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
-    '@nuxtjs/tailwindcss',
     '@prisma/nuxt',
+    '@nuxt/ui',
   ],
 });
