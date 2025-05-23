@@ -14,9 +14,11 @@ export default defineNuxtConfig({
     },
   ],
   css: ['~/assets/css/main.css'],
-  devtools: { enabled: true }, modules: [
+  devtools: { enabled: true },
+  modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxtjs/tailwindcss',
+    '@prisma/nuxt',
   ],
 });
