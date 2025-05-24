@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
-
-import prisma from '~/lib/prisma';
+import { getUserByEmail } from '~/server/utils/api';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -24,23 +23,6 @@ export default defineEventHandler(async (event) => {
     role: user.role,
   };
 });
-
-async function getUserByEmail(email: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (!user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Invalid credentials',
-    });
-  }
-
-  return user;
-}
 
 async function compareUserPassword(password: string, userPassword: string) {
   const isPasswordValid = await bcrypt.compare(password, userPassword);
