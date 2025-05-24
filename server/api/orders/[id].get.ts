@@ -1,5 +1,5 @@
 import { H3Error, type H3Event } from 'h3';
-import { getOrderById } from '~/server/utils/api';
+import { getOrderById } from '~/utils/api';
 
 export default defineEventHandler(async (event) => {
   const { id } = await getParams(event);

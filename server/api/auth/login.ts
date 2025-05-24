@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { getUserByEmail } from '~/server/utils/api';
+import { getUserByEmail } from '~/utils/api';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -14,13 +14,13 @@ export default defineEventHandler(async (event) => {
 
   const user = await getUserByEmail(email);
 
-  await compareUserPassword(password, user.password_hash);
+  await compareUserPassword(password, user!.password_hash);
 
   return {
-    email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    role: user.role,
+    email: user!.email,
+    first_name: user!.first_name,
+    last_name: user!.last_name,
+    role: user!.role,
   };
 });
 

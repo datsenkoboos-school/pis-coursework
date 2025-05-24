@@ -23,24 +23,6 @@ const path = computed(() => {
         >
           Ресторан
         </NuxtLink>
-
-        <template v-if="credentials">
-          <UButton
-            v-if="credentials.role === 'CUSTOMER'"
-            variant="ghost"
-            to="/customer"
-          >
-            Главная
-          </UButton>
-
-          <UButton
-            v-if="credentials.role === 'WAITER'"
-            variant="ghost"
-            to="/waiter"
-          >
-            Панель управления
-          </UButton>
-        </template>
       </div>
 
       <div class="flex items-center gap-3">

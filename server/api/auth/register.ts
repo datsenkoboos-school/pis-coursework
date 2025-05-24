@@ -1,3 +1,4 @@
+import type { Role } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import prisma from '~/lib/prisma';
 
@@ -57,7 +58,7 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-async function createUser(email: string, first_name: string, last_name: string, password_hash: string, role: string) {
+async function createUser(email: string, first_name: string, last_name: string, password_hash: string, role: Role) {
   await prisma.user.create({
     data: {
       email,

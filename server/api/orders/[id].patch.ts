@@ -1,7 +1,7 @@
 import type { OrderStatus } from '@prisma/client';
 import { H3Error, type H3Event } from 'h3';
 import prisma from '~/lib/prisma';
-import { getOrderById } from '~/server/utils/api';
+import { getOrderById } from '~/utils/api';
 
 export default defineEventHandler(async (event) => {
   const { id, status } = await getParams(event);

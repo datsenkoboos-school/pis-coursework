@@ -37,6 +37,7 @@ export default withNuxt(
     ...ts.configs.stylistic,
     {
       rules: {
+        '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-unused-vars': ['warn', {
           argsIgnorePattern: '^_',
           caughtErrors: 'none',

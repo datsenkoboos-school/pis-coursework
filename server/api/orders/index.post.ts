@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3';
 import prisma from '~/lib/prisma';
-import { getUserByEmail } from '~/server/utils/api';
+import { getUserByEmail } from '~/utils/api';
 
 export default defineEventHandler(async (event) => {
   const { address, date, description, email } = await getParams(event);
