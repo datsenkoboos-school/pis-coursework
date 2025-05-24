@@ -9,6 +9,8 @@ const schema = z.object({
   first_name: z.string().min(1, 'Введите имя'),
   last_name: z.string().min(1, 'Введите фамилию'),
   password: z.string().min(8, 'Пароль должен быть не менее 8 символов'),
+  role: z.enum(['CUSTOMER', 'WAITER']),
+  waiterPassphrase: z.string().optional(),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Пароли не совпадают',
   path: ['confirmPassword'],
@@ -22,14 +24,17 @@ const formData = reactive<Partial<Schema>>({
   first_name: undefined,
   last_name: undefined,
   password: undefined,
+  role: 'CUSTOMER',
+  waiterPassphrase: undefined,
 });
 
 const UModal = resolveComponent('UModal');
 
+const errorTitle = ref('Email уже используется');
 const overlay = useOverlay();
 const modal = overlay.create(UModal as Component, {
   props: {
-    title: 'Email уже используется',
+    title: errorTitle,
   },
 });
 
@@ -39,11 +44,19 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
       event.data.email,
       event.data.first_name,
       event.data.last_name,
-      event.data.password
+      event.data.password,
+      event.data.role,
+      event.data.waiterPassphrase
     );
 
     navigateTo('/login');
-  } catch (error) {
+  } catch (error: unknown) {
+    const apiError = error as { statusCode?: number };
+    if (apiError.statusCode === 403) {
+      errorTitle.value = 'Неверный код официанта';
+    } else {
+      errorTitle.value = 'Email уже используется';
+    }
     modal.open();
   }
 }
@@ -117,6 +130,36 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
           placeholder="Подтвердите пароль"
         />
       </UFormField>
+
+      <UFormField
+        label="Роль"
+        name="role"
+      >
+        <URadioGroup
+          v-model="formData.role"
+          :items="[
+            { label: 'Клиент', value: 'CUSTOMER' },
+            { label: 'Официант', value: 'WAITER' }
+          ]"
+          size="xl"
+        />
+      </UFormField>
+
+      <Transition name="fade">
+        <UFormField
+          v-if="formData.role === 'WAITER'"
+          label="Код официанта"
+          name="waiterPassphrase"
+        >
+          <UInput
+            v-model="formData.waiterPassphrase"
+            type="password"
+            class="w-full"
+            placeholder="Введите код официанта"
+            size="xl"
+          />
+        </UFormField>
+      </Transition>
     </div>
 
     <UButton

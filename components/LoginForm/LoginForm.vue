@@ -3,6 +3,8 @@ import type { FormSubmitEvent } from '@nuxt/ui';
 import * as z from 'zod';
 import { login } from './api';
 
+const { saveCredentials } = useCredentials();
+
 const schema = z.object({
   email: z.string().email('Неверный email'),
   password: z.string(),
@@ -26,9 +28,7 @@ const modal = overlay.create(UModal as Component, {
 async function handleLogin(event: FormSubmitEvent<Schema>) {
   try {
     const credentials = await login(event.data.email, event.data.password);
-
-    sessionStorage.setItem('credentials', JSON.stringify(credentials));
-
+    saveCredentials(credentials);
     navigateTo('/');
   } catch (error) {
     modal.open();

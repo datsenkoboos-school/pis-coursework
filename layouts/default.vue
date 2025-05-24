@@ -1,8 +1,7 @@
 <template>
-  <div
-    class="flex min-h-screen flex-col"
-  >
-    <main class="relative flex grow flex-col items-center justify-center">
+  <div class="min-h-screen flex flex-col">
+    <AppHeader />
+    <main class="grow flex flex-col items-center justify-center">
       <slot />
     </main>
   </div>

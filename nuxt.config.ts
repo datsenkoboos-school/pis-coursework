@@ -19,6 +19,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
   runtimeConfig: {
-    USER_PASSWORD_SALT: '',
+    userPasswordSalt: '',
+    waiterPassphrase: '',
   },
+  ssr: false,
 });

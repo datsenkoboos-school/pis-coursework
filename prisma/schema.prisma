@@ -16,6 +16,12 @@ model User {
   password_hash String
   first_name  String
   last_name  String
+  role Role @default(CUSTOMER)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+}
+
+enum Role {
+  CUSTOMER
+  WAITER
 }
