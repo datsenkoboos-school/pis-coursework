@@ -5,7 +5,6 @@ definePageMeta({
   middleware: ['customer'],
 });
 
-// Define the type for OrderList component with its refresh method
 interface OrderListInstance {
   refresh: () => void;
 }
@@ -23,16 +22,12 @@ const toast = useToast();
 function handleOrderSuccess(order: Order) {
   console.log('Order success handler called', order);
 
-  // Show success toast
   toast.add({
     color: 'success',
     description: 'Ваш заказ успешно создан и обрабатывается',
     title: 'Заказ создан',
   });
 
-  // Form is closed from within the OrderForm component
-
-  // Refresh the order list to show the new order
   console.log('Attempting to refresh order list');
   if (orderListRef.value) {
     console.log('OrderList ref found, calling refresh');
@@ -81,7 +76,6 @@ function handleOrderError(message: string) {
         </div>
       </UCard>
 
-      <!-- Modal Order Form -->
       <OrderForm
         v-model="isOrderFormOpen"
         @success="handleOrderSuccess"

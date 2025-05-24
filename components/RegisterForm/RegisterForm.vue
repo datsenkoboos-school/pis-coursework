@@ -151,9 +151,8 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
           label="Код официанта"
           name="waiterPassphrase"
         >
-          <UInput
+          <PasswordInput
             v-model="formData.waiterPassphrase"
-            type="password"
             class="w-full"
             placeholder="Введите код официанта"
             size="xl"

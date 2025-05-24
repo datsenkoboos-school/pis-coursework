@@ -44,7 +44,6 @@ const isLoading = ref(false);
 const isSubmitting = ref(false);
 
 async function handleCreateOrder(event: FormSubmitEvent<Schema>) {
-  // Prevent multiple submissions
   if (isSubmitting.value || isLoading.value) return;
 
   isSubmitting.value = true;
@@ -60,12 +59,10 @@ async function handleCreateOrder(event: FormSubmitEvent<Schema>) {
 
     const order = await createOrder(payload);
 
-    // Reset form
     formData.address = '';
     formData.date = '';
     formData.description = '';
 
-    // Emit success and close modal
     emit('success', order);
     closeModal();
   } catch (error) {
@@ -77,7 +74,6 @@ async function handleCreateOrder(event: FormSubmitEvent<Schema>) {
   }
 }
 
-// Handle ESC key press to close modal
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Escape' && props.modelValue) {
     closeModal();

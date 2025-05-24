@@ -5,7 +5,11 @@ export default defineEventHandler(async (event) => {
   const { email } = await getParams(event);
 
   try {
-    return await getOrdersByUserEmail(email);
+    if (email) {
+      return await getOrdersByUserEmail(email);
+    } else {
+      return await getAllOrders();
+    }
   } catch (error) {
     console.error('Error fetching orders:', error);
 
@@ -18,20 +22,22 @@ export default defineEventHandler(async (event) => {
 
 async function getParams(event: H3Event) {
   const query = getQuery(event);
-  const { email } = query as { email: string };
-
-  if (!email) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Missing required parameters',
-    });
-  }
+  const { email } = query as { email?: string };
 
   return { email };
 }
 
 async function getOrdersByUserEmail(email: string) {
   return await prisma.order.findMany({
+    include: {
+      user: {
+        select: {
+          email: true,
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
     orderBy: {
       created_at: 'desc',
     },
@@ -39,6 +45,23 @@ async function getOrdersByUserEmail(email: string) {
       user: {
         email,
       },
+    },
+  });
+}
+
+async function getAllOrders() {
+  return await prisma.order.findMany({
+    include: {
+      user: {
+        select: {
+          email: true,
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: 'desc',
     },
   });
 }

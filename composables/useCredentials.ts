@@ -1,9 +1,4 @@
-export interface UserCredentials {
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-}
+import type { UserCredentials } from '~/types/user';
 
 export function useCredentials() {
   const credentials = ref<null | UserCredentials>(null);
