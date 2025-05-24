@@ -1,24 +1,22 @@
 export default defineNuxtRouteMiddleware(() => {
   if (import.meta.server) return;
 
-  const credentialsStr = sessionStorage.getItem('credentials');
+  const { credentials } = useCredentials();
 
-  if (!credentialsStr) {
+  if (!credentials.value) {
     return navigateTo('/login');
   }
 
   try {
-    const credentials = JSON.parse(credentialsStr);
-
-    if (credentials.role !== 'CUSTOMER') {
-      if (credentials.role === 'WAITER') {
+    if (credentials.value.role !== 'CUSTOMER') {
+      if (credentials.value.role === 'WAITER') {
         return navigateTo('/waiter');
       }
 
       return navigateTo('/');
     }
   } catch (error) {
-    sessionStorage.removeItem('credentials');
+    credentials.value = null;
     return navigateTo('/login');
   }
 });

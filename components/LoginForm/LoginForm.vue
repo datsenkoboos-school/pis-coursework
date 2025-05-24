@@ -40,7 +40,7 @@ async function handleLogin(event: FormSubmitEvent<Schema>) {
   <UForm
     :schema="schema"
     :state="formData"
-    class="space-y-4"
+    class="space-y-4 w-[min(100vw,35rem)]"
     @submit="handleLogin"
   >
     <UFormField

@@ -49,7 +49,7 @@ function handleOrderError(message: string) {
 </script>
 
 <template>
-  <div class="p-6">
+  <div class="w-[min(100vw,35rem)]">
     <h1 class="text-2xl font-bold mb-6">
       Добро пожаловать, {{ credentials?.first_name }}
     </h1>

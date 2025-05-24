@@ -17,10 +17,10 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@prisma/nuxt',
     '@nuxt/ui',
+    '@vueuse/nuxt',
   ],
   runtimeConfig: {
     userPasswordSalt: '',
     waiterPassphrase: '',
   },
-  ssr: false,
 });

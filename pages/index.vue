@@ -1,18 +1,6 @@
 <script setup lang="ts">
-const { credentials } = useCredentials();
-
-onMounted(() => {
-  if (credentials.value) {
-    try {
-      if (credentials.value.role === 'CUSTOMER') {
-        navigateTo('/customer');
-      } else if (credentials.value.role === 'WAITER') {
-        navigateTo('/waiter');
-      }
-    } catch (error) {
-      sessionStorage.removeItem('credentials');
-    }
-  }
+definePageMeta({
+  middleware: ['index-page'],
 });
 </script>
 

@@ -66,7 +66,7 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
   <UForm
     :schema="schema"
     :state="formData"
-    class="space-y-6"
+    class="space-y-6 w-[min(100vw,35rem)]"
     @submit="handleRegister"
   >
     <div class="grid grid-cols-2 gap-4">

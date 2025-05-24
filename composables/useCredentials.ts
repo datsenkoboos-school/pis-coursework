@@ -1,44 +1,21 @@
 import type { UserCredentials } from '~/types/user';
 
 export function useCredentials() {
-  const credentials = ref<null | UserCredentials>(null);
-
-  function loadCredentials() {
-    if (import.meta.client) {
-      const storedCredentials = sessionStorage.getItem('credentials');
-      if (storedCredentials) {
-        try {
-          credentials.value = JSON.parse(storedCredentials);
-        } catch (error) {
-          console.error('Error parsing credentials:', error);
-          sessionStorage.removeItem('credentials');
-        }
-      }
-    }
-  }
+  const credentials = useCookie<null | UserCredentials>('credentials', {
+    maxAge: 60 * 60 * 24 * 30,
+  });
 
   function clearCredentials() {
-    if (import.meta.client) {
-      sessionStorage.removeItem('credentials');
-      credentials.value = null;
-    }
+    credentials.value = null;
   }
 
   function saveCredentials(newCredentials: UserCredentials) {
-    if (import.meta.client) {
-      sessionStorage.setItem('credentials', JSON.stringify(newCredentials));
-      credentials.value = newCredentials;
-    }
+    credentials.value = newCredentials;
   }
-
-  onMounted(() => {
-    loadCredentials();
-  });
 
   return {
     clearCredentials,
-    credentials: readonly(credentials),
-    loadCredentials,
+    credentials,
     saveCredentials,
   };
 }

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { deleteOrder, fetchAllOrders, type OrderStatus, type OrderWithUser, updateOrderStatus } from './api';
 
-const orders = ref<OrderWithUser[]>([]);
-const isLoading = ref(false);
 const isRefreshing = ref(false);
 const error = ref<null | string>(null);
 
@@ -48,19 +46,17 @@ function formatDate(dateString: Date | string) {
   return date.toLocaleDateString('ru-RU');
 }
 
-async function loadOrders() {
-  isLoading.value = true;
-  error.value = null;
-
-  try {
-    orders.value = await fetchAllOrders();
-  } catch (err) {
-    console.error('Error fetching orders:', err);
-    error.value = 'Не удалось загрузить заказы';
-  } finally {
-    isLoading.value = false;
-  }
+async function getOrders() {
+  return await fetchAllOrders();
 }
+
+const { data: orders, pending: isLoading, refresh: refreshOrders } = useAsyncData(
+  'all-orders',
+  getOrders,
+  {
+    default: () => [] as OrderWithUser[],
+  }
+);
 
 function confirmDelete(order: OrderWithUser) {
   orderToDelete.value = order;
@@ -143,7 +139,7 @@ function refresh() {
   const minAnimationTime = 500;
 
   setTimeout(() => {
-    loadOrders().then(() => {
+    refreshOrders().then(() => {
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, minAnimationTime - elapsedTime);
 
@@ -159,12 +155,13 @@ defineExpose({
 });
 
 onMounted(() => {
-  loadOrders();
+  showDeleteModal.value = false;
+  showStatusModal.value = false;
 });
 </script>
 
 <template>
-  <div>
+  <div class="w-[min(100vw,35rem)]">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold">
         Все заказы
@@ -185,16 +182,6 @@ onMounted(() => {
       class="text-red-500 mb-4"
     >
       {{ error }}
-    </div>
-
-    <div
-      v-if="isLoading"
-      class="py-8 text-center"
-    >
-      <UIcon
-        name="i-heroicons-arrow-path"
-        class="animate-spin h-8 w-8 mx-auto text-gray-400"
-      />
     </div>
 
     <div

@@ -1,9 +1,9 @@
 export default defineNuxtRouteMiddleware(() => {
   if (import.meta.server) return;
 
-  const credentials = sessionStorage.getItem('credentials');
+  const { credentials } = useCredentials();
 
-  if (!credentials) {
+  if (!credentials.value) {
     return navigateTo('/login');
   }
 });
