@@ -17,6 +17,7 @@ model User {
   first_name  String
   last_name  String
   role Role @default(CUSTOMER)
+  orders Order[]
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 }
@@ -24,4 +25,24 @@ model User {
 enum Role {
   CUSTOMER
   WAITER
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  description String
+  address   String
+  date      DateTime
+  status    OrderStatus @default(PENDING)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
