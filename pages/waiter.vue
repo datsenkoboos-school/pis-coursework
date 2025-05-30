@@ -33,7 +33,7 @@ const { credentials } = useCredentials();
               to="/orders"
               icon="i-heroicons-clipboard-document-list"
             >
-              Просмотреть заказы
+              Просмотр заказов
             </UButton>
           </div>
         </template>

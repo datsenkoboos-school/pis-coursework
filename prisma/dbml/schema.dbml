@@ -1,0 +1,42 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  email String [unique, not null]
+  password_hash String [not null]
+  first_name String [not null]
+  last_name String [not null]
+  role Role [not null, default: 'CUSTOMER']
+  orders Order [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Order {
+  id Int [pk, increment]
+  description String [not null]
+  address String [not null]
+  date DateTime [not null]
+  status OrderStatus [not null, default: 'PENDING']
+  userId Int [not null]
+  user User [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Enum Role {
+  CUSTOMER
+  WAITER
+}
+
+Enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+Ref: Order.userId > User.id
