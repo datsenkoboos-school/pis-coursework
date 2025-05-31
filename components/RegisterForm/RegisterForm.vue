@@ -8,8 +8,9 @@ const schema = z.object({
   email: z.string().email('Неверный email'),
   first_name: z.string().min(1, 'Введите имя'),
   last_name: z.string().min(1, 'Введите фамилию'),
+  managerPassphrase: z.string().optional(),
   password: z.string().min(8, 'Пароль должен быть не менее 8 символов'),
-  role: z.enum(['CUSTOMER', 'WAITER']),
+  role: z.enum(['CUSTOMER', 'WAITER', 'MANAGER']),
   waiterPassphrase: z.string().optional(),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Пароли не совпадают',
@@ -23,6 +24,7 @@ const formData = reactive<Partial<Schema>>({
   email: undefined,
   first_name: undefined,
   last_name: undefined,
+  managerPassphrase: undefined,
   password: undefined,
   role: 'CUSTOMER',
   waiterPassphrase: undefined,
@@ -46,14 +48,19 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
       event.data.last_name,
       event.data.password,
       event.data.role,
-      event.data.waiterPassphrase
+      event.data.waiterPassphrase,
+      event.data.managerPassphrase
     );
 
     navigateTo('/login');
   } catch (error: unknown) {
     const apiError = error as { statusCode?: number };
     if (apiError.statusCode === 403) {
-      errorTitle.value = 'Неверный код официанта';
+      if (formData.role === 'WAITER') {
+        errorTitle.value = 'Неверный код официанта';
+      } else if (formData.role === 'MANAGER') {
+        errorTitle.value = 'Неверный код менеджера';
+      }
     } else {
       errorTitle.value = 'Email уже используется';
     }
@@ -139,25 +146,45 @@ async function handleRegister(event: FormSubmitEvent<Schema>) {
           v-model="formData.role"
           :items="[
             { label: 'Клиент', value: 'CUSTOMER' },
-            { label: 'Официант', value: 'WAITER' }
+            { label: 'Официант', value: 'WAITER' },
+            { label: 'Менеджер', value: 'MANAGER' }
           ]"
           size="xl"
         />
       </UFormField>
 
       <Transition name="fade">
-        <UFormField
-          v-if="formData.role === 'WAITER'"
-          label="Код официанта"
-          name="waiterPassphrase"
-        >
-          <PasswordInput
-            v-model="formData.waiterPassphrase"
-            class="w-full"
-            placeholder="Введите код официанта"
-            size="xl"
-          />
-        </UFormField>
+        <div v-if="formData.role !== 'CUSTOMER'">
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <UFormField
+              v-if="formData.role === 'WAITER'"
+              label="Код официанта"
+              name="waiterPassphrase"
+            >
+              <PasswordInput
+                v-model="formData.waiterPassphrase"
+                class="w-full"
+                placeholder="Введите код официанта"
+                size="xl"
+              />
+            </UFormField>
+            <UFormField
+              v-else
+              label="Код менеджера"
+              name="managerPassphrase"
+            >
+              <PasswordInput
+                v-model="formData.managerPassphrase"
+                class="w-full"
+                placeholder="Введите код менеджера"
+                size="xl"
+              />
+            </UFormField>
+          </Transition>
+        </div>
       </Transition>
     </div>
 

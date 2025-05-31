@@ -4,13 +4,15 @@ export async function register(
   last_name: string,
   password: string,
   role: string,
-  waiterPassphrase?: string
+  waiterPassphrase?: string,
+  managerPassphrase?: string
 ) {
   return $fetch('/api/auth/register', {
     body: {
       email,
       first_name,
       last_name,
+      managerPassphrase,
       password,
       role,
       waiterPassphrase,

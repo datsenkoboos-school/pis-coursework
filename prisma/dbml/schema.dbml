@@ -29,6 +29,7 @@ Table Order {
 Enum Role {
   CUSTOMER
   WAITER
+  MANAGER
 }
 
 Enum OrderStatus {

@@ -11,6 +11,17 @@ const route = useRoute();
 const path = computed(() => {
   return route.path;
 });
+
+const formattedRole = computed(() => {
+  switch (credentials.value?.role) {
+    case 'MANAGER':
+      return 'Менеджер';
+    case 'WAITER':
+      return 'Официант';
+    default:
+      return 'Клиент';
+  }
+});
 </script>
 
 <template>
@@ -31,7 +42,7 @@ const path = computed(() => {
             class="text-sm mr-2"
           >
             {{ credentials.first_name }} {{ credentials.last_name }}
-            <span class="text-xs text-gray-500 ml-1">({{ credentials.role === 'CUSTOMER' ? 'Клиент' : 'Официант' }})</span>
+            <span class="text-xs text-gray-500 ml-1">({{ formattedRole }})</span>
           </div>
           <UButton
             size="sm"

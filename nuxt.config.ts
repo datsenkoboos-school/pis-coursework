@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
   ],
   runtimeConfig: {
+    managerPassphrase: '',
     userPasswordSalt: '',
     waiterPassphrase: '',
   },

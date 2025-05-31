@@ -4,7 +4,7 @@ import prisma from '~/lib/prisma';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const { email, first_name, last_name, password, role, waiterPassphrase } = body || {};
+  const { email, first_name, last_name, managerPassphrase, password, role, waiterPassphrase } = body || {};
 
   if (!email || !password || !first_name || !last_name || !role) {
     throw createError({
@@ -21,6 +21,18 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 403,
         statusMessage: 'Invalid waiter passphrase',
+      });
+    }
+  }
+
+  if (role === 'MANAGER') {
+    const config = useRuntimeConfig(event);
+    const correctPassphrase = config.managerPassphrase;
+
+    if (!managerPassphrase || managerPassphrase !== correctPassphrase) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'Invalid manager passphrase',
       });
     }
   }
