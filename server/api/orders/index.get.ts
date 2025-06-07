@@ -30,6 +30,11 @@ async function getParams(event: H3Event) {
 async function getOrdersByUserEmail(email: string) {
   return await prisma.order.findMany({
     include: {
+      items: {
+        include: {
+          menuItem: true,
+        },
+      },
       user: {
         select: {
           email: true,
@@ -52,6 +57,11 @@ async function getOrdersByUserEmail(email: string) {
 async function getAllOrders() {
   return await prisma.order.findMany({
     include: {
+      items: {
+        include: {
+          menuItem: true,
+        },
+      },
       user: {
         select: {
           email: true,

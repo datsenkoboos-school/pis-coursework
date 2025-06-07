@@ -42,9 +42,24 @@ function formatDate(dateString: Date | string) {
     </div>
     <div class="mt-4">
       <p class="font-bold">
-        Описание
+        Заказанные блюда
       </p>
-      <p>{{ order.description }}</p>
+      <div class="space-y-1">
+        <div
+          v-for="item in order.items"
+          :key="item.id"
+          class="flex justify-between text-sm"
+        >
+          <span>{{ item.menuItem.name }} x{{ item.quantity }}</span>
+          <span>{{ item.menuItem.price * item.quantity }} ₽</span>
+        </div>
+      </div>
+      <div class="border-t mt-2 pt-2">
+        <div class="flex justify-between font-bold">
+          <span>Итого:</span>
+          <span>{{ order.items.reduce((total, item) => total + (item.menuItem.price * item.quantity), 0) }} ₽</span>
+        </div>
+      </div>
     </div>
     <div class="mt-2">
       <p class="font-bold">

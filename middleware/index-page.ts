@@ -7,5 +7,7 @@ export default defineNuxtRouteMiddleware(() => {
     return '/customer';
   } else if (credentials.value.role === 'WAITER') {
     return '/waiter';
+  } else if (credentials.value.role === 'MANAGER') {
+    return '/manager';
   }
 });

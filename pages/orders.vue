@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['waiter'],
+  middleware: ['waiter-manager'],
 });
 </script>
 

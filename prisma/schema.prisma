@@ -32,14 +32,36 @@ enum Role {
   MANAGER
 }
 
+model MenuItem {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  is_available Boolean @default(true)
+  orderItems OrderItem[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
 model Order {
   id        Int      @id @default(autoincrement())
-  description String
   address   String
   date      DateTime
   status    OrderStatus @default(PENDING)
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
+  items OrderItem[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  orderId    Int
+  menuItemId Int
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

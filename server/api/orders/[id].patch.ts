@@ -47,6 +47,13 @@ async function getParams(event: H3Event) {
 async function updateOrderStatus(id: number, status: OrderStatus) {
   return await prisma.order.update({
     data: { status },
+    include: {
+      items: {
+        include: {
+          menuItem: true,
+        },
+      },
+    },
     where: { id },
   });
 }

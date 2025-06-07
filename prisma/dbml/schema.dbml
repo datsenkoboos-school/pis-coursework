@@ -14,14 +14,36 @@ Table User {
   updated_at DateTime [not null]
 }
 
+Table MenuItem {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  price Float [not null]
+  is_available Boolean [not null, default: true]
+  orderItems OrderItem [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
 Table Order {
   id Int [pk, increment]
-  description String [not null]
   address String [not null]
   date DateTime [not null]
   status OrderStatus [not null, default: 'PENDING']
   userId Int [not null]
   user User [not null]
+  items OrderItem [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table OrderItem {
+  id Int [pk, increment]
+  quantity Int [not null]
+  orderId Int [not null]
+  menuItemId Int [not null]
+  order Order [not null]
+  menuItem MenuItem [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
 }
@@ -41,3 +63,7 @@ Enum OrderStatus {
 }
 
 Ref: Order.userId > User.id
+
+Ref: OrderItem.orderId > Order.id [delete: Cascade]
+
+Ref: OrderItem.menuItemId > MenuItem.id
