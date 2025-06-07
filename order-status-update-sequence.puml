@@ -1,0 +1,32 @@
+@startuml Order Status Update Sequence Diagram
+!theme plain
+title Restaurant System - Order Status Update Flow
+
+actor "Staff (Waiter/Manager)" as S
+participant "Orders Page" as OP
+participant "OrderManager" as OM
+participant "API Server" as API
+participant "Database" as DB
+
+S -> OP: Navigate to orders page
+
+OP -> API: Get all orders
+API -> DB: Fetch orders
+DB --> API: Orders list
+API --> OP: All orders
+
+OP -> OM: Display orders
+OM -> S: Show order list
+
+S -> OM: Select order status
+S -> OM: Update status
+
+OM -> API: Update order status
+API -> DB: Save new status
+DB --> API: Status updated
+API --> OM: Success
+
+OM -> OP: Status updated
+OP -> S: Show updated order
+
+@enduml 

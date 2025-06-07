@@ -1,0 +1,30 @@
+@startuml Create Order Sequence Diagram
+!theme plain
+title Restaurant System - Create Order Flow
+
+actor Customer as C
+participant "Customer Page" as CP
+participant "OrderForm" as OF
+participant "API Server" as API
+participant "Database" as DB
+
+C -> CP: Click "Create Order"
+CP -> OF: Open order form
+
+OF -> API: Get menu items
+API -> DB: Fetch menu
+DB --> API: Menu data
+API --> OF: Available items
+
+C -> OF: Fill order details
+C -> OF: Submit order
+
+OF -> API: Create order
+API -> DB: Save order
+DB --> API: Order created
+API --> OF: Success
+
+OF -> CP: Order created
+CP -> C: Show confirmation
+
+@enduml 

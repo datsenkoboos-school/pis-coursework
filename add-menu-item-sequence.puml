@@ -1,0 +1,35 @@
+@startuml Add Menu Item Sequence Diagram
+!theme plain
+title Restaurant System - Add Menu Item Flow
+
+actor "Manager" as M
+participant "Menu Management Page" as MMP
+participant "MenuManager" as MM
+participant "API Server" as API
+participant "Database" as DB
+
+M -> MMP: Navigate to menu management
+
+MMP -> API: Get current menu
+API -> DB: Fetch menu items
+DB --> API: Menu items list
+API --> MMP: Current menu
+
+MMP -> MM: Display menu items
+MM -> M: Show menu list
+
+M -> MM: Click "Add Menu Item"
+MM -> M: Show add item form
+
+M -> MM: Fill item details
+M -> MM: Submit new item
+
+MM -> API: Create menu item
+API -> DB: Save menu item
+DB --> API: Item created
+API --> MM: Success
+
+MM -> MMP: Item added
+MMP -> M: Show updated menu
+
+@enduml 
