@@ -11,7 +11,8 @@
     "typecheck": "nuxi typecheck",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint --fix .",
-    "check": "pnpm typecheck && pnpm lint"
+    "check": "pnpm typecheck && pnpm lint",
+    "start": "node .output/server/index.mjs"
   },
   "nano-staged": {
     "*.{vue,ts,js,css,json}": "eslint --fix"
@@ -20,7 +21,7 @@
     "@nuxt/eslint": "1.4.1",
     "@nuxt/fonts": "0.11.4",
     "@nuxt/ui": "^3.1.2",
-    "@prisma/client": "6.8.2",
+    "@prisma/client": "6.9.0",
     "@prisma/nuxt": "0.3.0",
     "@vueuse/nuxt": "13.2.0",
     "bcrypt": "^6.0.0",
@@ -38,7 +39,7 @@
     "eslint-plugin-perfectionist": "^4.13.0",
     "eslint-plugin-vuejs-accessibility": "^2.4.1",
     "nano-staged": "^0.8.0",
-    "prisma": "6.8.2",
+    "prisma": "6.9.0",
     "prisma-dbml-generator": "^0.12.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1"

@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: restaurant_db
+      POSTGRES_USER: restaurant_user
+      POSTGRES_PASSWORD: restaurant_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      DATABASE_URL: "postgresql://restaurant_user:restaurant_password@postgres:5432/restaurant_db"
+      NUXT_SECRET_KEY: "your-secret-key-here"
+      NUXT_USER_PASSWORD_SALT: "10"
+      NUXT_WAITER_PASSPHRASE: "waiter-secret-123"
+      NUXT_MANAGER_PASSPHRASE: "manager-secret-456"
+      NODE_ENV: "production"
+    command: sh -c "pnpm prisma db push && pnpm start"
+    restart: unless-stopped
+
+volumes:
+  postgres_data: 
